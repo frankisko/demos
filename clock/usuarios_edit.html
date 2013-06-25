@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>CRUD usuarios</title>
+	</head>
+	<body>
+		<form method="post" action="/crud/edit/{{ usuario.key() }}">
+			<label>Nombre: </label><input type="text" name="nombre" value="{{ usuario.nombre }}"/><br />
+			<label>Apellido paterno: </label><input type="text" name="apellido_paterno" value="{{ usuario.apellido_paterno }}"/><br />
+			<label>Apellido materno: </label><input type="text" name="apellido_materno" value="{{ usuario.apellido_materno }}"/><br />
+			<label>Edad: </label><input type="text" name="edad" value="{{ usuario.edad }}"/><br />
+			<input type="submit" value="Enviar" />
+		</form>
+	</body>
+</html>
