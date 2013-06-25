@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>CRUD usuarios</title>
+		<link rel="stylesheet" type="text/css" href="/css/styles.css" />
+	</head>
+	<body>
+		<img src="/img/header.png" />
+		<br /><br />
+		<a href="/add" class="click">Agregar</a><br /><br />
+		<h1>Lista usuarios</h1>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Apellido paterno</th>
+					<th>Apellido materno</th>
+					<th>Edad</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for usuario in usuarios %}
+					<tr>
+						<td>{{ usuario.nombre}}</td>
+						<td>{{ usuario.apellido_paterno}}</td>
+						<td>{{ usuario.apellido_materno}}</td>
+						<td>{{ usuario.edad}}</td>
+						<td>
+							<a href="/edit/{{ usuario.key()}}" class="link">Editar</a>
+							<a href="/delete/{{ usuario.key()}}" class="link">Borrar</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>
