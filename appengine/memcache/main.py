@@ -8,20 +8,19 @@ template_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.getcwd()))
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):
-		template = template_env.get_template('templates/index.html')
-		context = {}
-		self.response.out.write(template.render(context))
-	def post(self):
-		template = template_env.get_template('templates/index.html')
-		context = {}					
-		nombre = self.request.get('nombre')	
-		cached = memcache.get(nombre)
+		nombre_cache = 'mi_cache'
+		cached = memcache.get(nombre_cache)					
+		
 		if not cached:
-			context['info'] = "Se ha guardado tu sobrenombre"
-			memcache.set(nombre, self.request.get('sobrenombre'))
+			logging.info('No existe cache. Se procede a guardar...')				
+			template = template_env.get_template('templates/index.html')
+			context = {}
+			html = template.render(context)
+			memcache.set(nombre_cache, html, 300)
+			self.response.out.write(html)			        
 		else :
-			context['sobrenombre'] = cached
-		self.response.out.write(template.render(context))			
+			logging.info('Se ha leido la informacion desde la cache')
+			self.response.out.write(cached)			
 	
 application = webapp2.WSGIApplication([('/', MainPage),],
 									debug=True)
