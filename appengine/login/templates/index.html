@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Login</title>
+	</head>
+	<body>
+		{% if user %}
+			<p>Bienvenido {{ user.email() }}</p>
+			<a href="{{ logout_url}}">Desconecta</a>
+		{% else %}
+			<a href="{{ login_url }}">Iniciar sesión</a>
+		{% endif %}
+		<br /><br />
+		La <a href="/secret">página secreta</a> solo se puede acceder si has iniciado sesión
+	</body>
+</html>
