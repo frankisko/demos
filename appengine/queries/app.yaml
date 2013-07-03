@@ -1,18 +1,10 @@
-application: login
+application: queries
 version: 1
 runtime: python27
 api_version: 1
 threadsafe: true
 
 handlers:
-- url: /secret
-  script: main.application
-  login: required
-
-- url: /admin
-  script: main.application
-  login: admin
-
 - url: .*
   script: main.application
 

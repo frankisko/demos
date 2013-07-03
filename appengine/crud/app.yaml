@@ -4,9 +4,12 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+default_expiration: "1d"
+
 handlers:
 - url: /css
   static_dir: static/css
+  expiration: "6h"
 - url: /img
   static_dir: static/img
 - url: .*

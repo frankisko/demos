@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Filtros</title>
+        <style type="text/css">
+            table tr th, table tr td { border: 1px solid black; padding: 0 5px; }
+        </style>
+    </head>
+    <body>
+        <h3>Productos</h3>
+
+        <h4>Filtros</h4>
+        <form method="get" action="/">
+            <table>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Stock</td>
+                    <td>Expiración</td>
+                    <td>Precio</td>
+                    <td>Acciones</td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="nombre" value="{{ nombre }}" placeholder="Ej: Producto 2"/></td>
+                    <td>
+                        <input type="text" name="stock" value="{{ stock }}" placeholder="Ej: >5, >5 AND stock < 10"/>
+                    </td>
+                    <td>
+                        <input type="text" name="expiracion" value="{{ expiracion }}" placeholder="Ej: '2013-03-01', '2013-03-01' AND expiracion <= '2013-07-04'"/>
+                    </td>
+                    <td>
+                        <input type="text" name="precio" value="{{ precio }}" placeholder="Ej: 20, > 20 AND precio <=30" />
+                    </td>
+                    <td>
+                        <input type="submit" value="Enviar" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Stock</th>
+                    <th>Expiración</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>{{ producto.expiracion }}</td>
+                        <td>{{ producto.precio }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br />
+        Query generada: <br />
+        <textarea cols="30" rows="5">{{ query }}</textarea>
+    </body>
+</html>
