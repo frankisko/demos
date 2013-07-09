@@ -6,28 +6,45 @@
         </style>
     </head>
     <body>
-        <h3>Productos</h3>
-
         <h4>Filtros</h4>
+        <p>Seleccione un filtro, escriba su valor y presione enviar.</p>
         <form method="get" action="/">
             <table>
                 <tr>
-                    <td>Nombre</td>
-                    <td>Stock</td>
-                    <td>Expiración</td>
-                    <td>Precio</td>
+                    <td><input type="radio" name="radio" value="nombre" {% if radio == "nombre" %}checked="checked"{% endif %}>Nombre</td>
+                    <td><input type="radio" name="radio" value="stock" {% if radio == "stock" %}checked="checked"{% endif %}>Stock</td>
+                    <td><input type="radio" name="radio" value="expiracion" {% if radio == "expiracion" %}checked="checked"{% endif %}>Expiración</td>
+                    <td><input type="radio" name="radio" value="precio" {% if radio == "precio" %}checked="checked"{% endif %}>Precio</td>
                     <td>Acciones</td>
                 </tr>
                 <tr>
                     <td><input type="text" name="nombre" value="{{ nombre }}" placeholder="Ej: Producto 2"/></td>
                     <td>
-                        <input type="text" name="stock" value="{{ stock }}" placeholder="Ej: >5, >5 AND stock < 10"/>
+                        <select name="stock_op" value="{{ stock_op }}">
+                            <option value="">-</option>
+                            <option value=">" {% if stock_op == ">" %}selected="selected"{% endif %}>&gt;</option>
+                            <option value="=" {% if stock_op == "=" %}selected="selected"{% endif %}>=</option>
+                            <option value="<" {% if stock_op == "<" %}selected="selected"{% endif %}>&lt;</option>
+                        </select>
+                        <input type="text" name="stock" value="{{ stock }}"/>
                     </td>
                     <td>
-                        <input type="text" name="expiracion" value="{{ expiracion }}" placeholder="Ej: '2013-03-01', '2013-03-01' AND expiracion <= '2013-07-04'"/>
+                         <select name="expiracion_op" value="{{ expiracion_op }}">
+                            <option value="">-</option>
+                            <option value=">" {% if expiracion_op == ">" %}selected="selected"{% endif %}>&gt;</option>
+                            <option value="=" {% if expiracion_op == "=" %}selected="selected"{% endif %}>=</option>
+                            <option value="<" {% if expiracion_op == "<" %}selected="selected"{% endif %}>&lt;</option>
+                        </select>
+                        <input type="text" name="expiracion" value="{{ expiracion }}"/>
                     </td>
                     <td>
-                        <input type="text" name="precio" value="{{ precio }}" placeholder="Ej: 20, > 20 AND precio <=30" />
+                        <select name="precio_op" value="{{ precio_op }}">
+                            <option value="">-</option>
+                            <option value=">" {% if precio_op == ">" %}selected="selected"{% endif %}>&gt;</option>
+                            <option value="=" {% if precio_op == "=" %}selected="selected"{% endif %}>=</option>
+                            <option value="<" {% if precio_op == "<" %}selected="selected"{% endif %}>&lt;</option>
+                        </select>
+                        <input type="text" name="precio" value="{{ precio }}"/>
                     </td>
                     <td>
                         <input type="submit" value="Enviar" />
@@ -35,6 +52,7 @@
                 </tr>
             </table>
         </form>
+        <h4>Productos</h4>
         <table>
             <thead>
                 <tr>

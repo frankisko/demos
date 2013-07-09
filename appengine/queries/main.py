@@ -3,7 +3,7 @@ import os
 import jinja2
 from models import Producto
 from google.appengine.ext import db
-import datetime
+from datetime import datetime
 
 template_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.getcwd()))
 
@@ -14,35 +14,40 @@ class MainPage(webapp2.RequestHandler):
             self.populate()
                     
         #filtros
+        radio = self.request.get('radio')
         nombre = self.request.get('nombre')
+        stock_op = self.request.get('stock_op')
         stock = self.request.get('stock')
+        expiracion_op = self.request.get('expiracion_op')
         expiracion = self.request.get('expiracion')
-        precio = self.request.get('precio1')
+        precio_op = self.request.get('precio_op')
+        precio = self.request.get('precio')
                 
         query = "SELECT * FROM Producto"
         query_params = []
-        if nombre != "":
-            query_params.append("nombre = '" + nombre + "'")
-        if stock != "":
-            query_params.append("stock " + stock)    
-        if expiracion != "":
-            query_params.append("expiracion " + expiracion)    
-        if precio != "":
-            query_params.append("precio " + precio)            
-        
-        if len(query_params) > 0:
-            primero = query_params[0:1]
-            query += " WHERE " +  str(primero[0]) + " AND ".join(query_params[1:])
-          
-        print query          
-        #productos = db.GqlQuery(query)        
+        if radio == "nombre" and nombre != "":
+            query += " WHERE nombre = '" + nombre + "'"
+        if radio == "stock" and stock_op != "" and stock != "":
+            query += " WHERE stock " + stock_op + " " + stock    
+        if radio == "expiracion" and expiracion_op != "" and expiracion != "":
+            fecha = datetime.strptime('2012-02-10' , '%Y-%m-%d')                     
+            query += " WHERE expiracion " + expiracion_op + "DATE("+expiracion[0:4]+", " + expiracion[5:7] +", " + expiracion[8:]+ ")"    
+        if radio == "precio" and precio_op != "" and precio != "":
+            query += " WHERE precio " + precio_op + " " + precio            
+                                                                    
+        productos = db.GqlQuery(query)
+
         context = {
-         #   "productos" : productos,
-            "query"     : query,
-            "nombre"    : nombre,
-            "stock"     : stock,
-            "expiracion": expiracion,
-            "precio"    : precio            
+            "radio"         : radio,
+            "productos"     : productos,
+            "query"         : query,
+            "nombre"        : nombre,
+            "stock_op"      : stock_op,
+            "stock"         : stock,
+            "expiracion_op" : expiracion_op,
+            "expiracion"    : expiracion,
+            "precio_op"     : precio_op,     
+            "precio"        : precio            
         }
         
         template = template_env.get_template('templates/index.html')        
